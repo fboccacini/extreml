@@ -1,4 +1,4 @@
-require './Extreml.rb'
+require 'extreml'
 
 ric = './SdIRiceviFile_v1.0.wsdl'
 xsd = './RicezioneTypes_v1.0.xsd'
