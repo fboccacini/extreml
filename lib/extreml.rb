@@ -42,7 +42,6 @@ class Extreml
       # Read file
       xml = File.read xml_file
 
-      @header = nil
       @body = Hash.new
 
       # Get xml header informations
@@ -50,25 +49,26 @@ class Extreml
 
       if header.nil?
         puts "Warning: #{xml_file}: xml header missing." if @warnings
-        define_singleton_method :xml do
+        define_singleton_method :header do
           return nil
         end
       else
         h = header.scan /([\w\?\<]*)=["|']([^'"]*)["|']/
 
-        @xml = XmlHeader.new
+        @xml_header = XmlHeader.new
         h.each do |param|
-          @xml.instance_eval do
+          @xml_header.instance_eval do
             define_singleton_method param[0].to_sym do
               return param[1]
             end
           end
         end
 
-        define_singleton_method :xml do
-          return @xml
+        define_singleton_method :header do
+          return @xml_header
         end
       end
+
     end
 
     # Read document

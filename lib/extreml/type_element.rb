@@ -48,6 +48,7 @@ class TypeElement
     @namespace = document[:namespace]
     @attributes = document[:attributes]
     @content = document[:content]
+    @types = Array.new
 
     # Add a type for every element in content
     unless @content.nil?
@@ -86,7 +87,8 @@ class TypeElement
   alias __content content
 
   def types
-    return self.methods - TypeElement.instance_methods
+    # return self.methods - TypeElement.instance_methods
+    return @types
   end
   alias __types types
 
@@ -109,6 +111,7 @@ class TypeElement
           return content
         end
       end
+      @types << name.to_sym
     end
 
   end
