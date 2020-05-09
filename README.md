@@ -3,7 +3,7 @@
 
 A powerful ruby gem to easily manipulate XML documents, that gives acces to the elements through dynamic methods.
 
-This library contains another class, TypeElement, which exposes dynamic methods named after its nested tags.
+This library contains another two classes, XmlHeader and TypeElement, which expose dynamic methods named after respectively their properties and nested tags.
 
 The document method in of Extreml returns aTypeElement object with a method named after the root tag which returns the first level of nesting represented as TypeElement objects.
 
@@ -22,6 +22,8 @@ Usage:
 
 
 **Extreml:**
+
+header: returns the representation of the xml header as a XmlHeader object.
 
 document: returns the representation of the entire document as a TypeElement object.
 
@@ -46,7 +48,7 @@ All these methods have aliases (eg. __name, __namespace, etc.)
 
 
 
-**File example:**
+**File examples:**
 funny_people.xml
 
     <?xml version="1.0" encoding="UTF-8"?>
@@ -82,6 +84,19 @@ funny_people.xml
         <otherTypes/>
       </types>
     </ns0:funnyPeople>
+    
+movies.xml
+
+    <movies>
+      <movie>
+        <title>The terminator</title>
+        <year>1984</year>
+      </movie>
+      <movie>
+        <title>The matrix</title>
+        <year>1999</year>
+      </movie>
+    </movies>
 
 ## Code example:
 
@@ -90,8 +105,18 @@ funny_people.xml
     xml.header.version                                           # => "1.0"
     xml.header.encoding                                          # => "UTF-8"
 
-    xml.document.funnyPeople.businessCard[0].name.firstName.to_s # => Guybrush
+    xml.document.funnyPeople.businessCard[0].name.firstName.to_s # => "Guybrush"
     xml.document.funnyPeople.businessCard[0].__name              # => "businessCard"
 
     xml.document.funnyPeople.types                               # => #<TypeElement:0x0000557373082fc8>
     xml.document.funnyPeople.__types                             # => [:businessCard, :types]
+
+    
+    xml = Extreml.new './movies.xml'
+
+    xml.header                                                   # => nil
+
+    xml.document.funnyPeople.movies.movie[0].title               # => "The terminator"
+    xml.document.funnyPeople.movies.types                        # => [:movie]
+    
+    
