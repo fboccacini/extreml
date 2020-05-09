@@ -20,10 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'extreml/type_element'
-
-class XmlHeader
-end
 
 class Extreml
 
@@ -151,3 +147,7 @@ class Extreml
   end
 
 end
+
+
+require 'extreml/type_element'
+require 'extreml/xml_header'

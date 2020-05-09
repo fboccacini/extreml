@@ -22,7 +22,7 @@
 
 require 'pp'
 
-class TypeElement
+class Extreml::TypeElement
 
   def initialize document
 
@@ -101,12 +101,12 @@ class TypeElement
     if self.__types.any? name.to_sym
       array = self.send name.to_sym
       define_singleton_method name.to_sym do
-        return [array].flatten + [(content.class == Hash ? (TypeElement.new content) : content)]
+        return [array].flatten + [(content.class == Hash ? (Extreml::TypeElement.new content) : content)]
       end
     else
       define_singleton_method name.to_sym do
         if content.class == Hash
-          return TypeElement.new content
+          return Extreml::TypeElement.new content
         else
           return content
         end
