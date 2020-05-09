@@ -116,7 +116,7 @@ movies.xml
 
     xml.header                                                   # => nil
 
-    xml.document.funnyPeople.movies.movie[0].title               # => "The terminator"
-    xml.document.funnyPeople.movies.types                        # => [:movie]
+    xml.document.movies.movie[0].title                           # => "The terminator"
+    xml.document.movies.types                                    # => [:movie]
     
     
