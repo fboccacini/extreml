@@ -10,11 +10,7 @@ test = Extreml.new(ric)
 
 xml = Extreml.new './testt.xml'
 
-# puts xml.header.version # => "1.0"
-# puts xml.header.encoding # => "UTF-8"
+puts xml.header.inspect                                                   # => nil
 
-puts xml.document.funnyPeople.businessCard[0].name.firstName.inspect # => Guybrush
-# puts xml.document.funnyPeople.businessCard[0].__name # => "businessCard"
-#
-# puts xml.document.funnyPeople.types.inspect # =>
-# puts xml.document.funnyPeople.__types.inspect # =>
+puts xml.document.movies.movie[0].title               # => "The terminator"
+puts xml.document.movies.types.inspect
