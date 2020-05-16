@@ -20,5 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+<<<<<<< HEAD
 class Extreml::XmlHeader
+=======
+# Exposes the xml header properties as methods
+class Extreml::XmlHeader
+
+  # Initialize
+  #
+  # @param header [Hash|String] the header.
+  # @return [XmlHeader] the object.
+  def initialize header
+    h = header.scan /([\w\?\<]*)=["|']([^'"]*)["|']/
+    h.each do |param|
+      define_singleton_method param[0].to_sym do
+        return param[1]
+      end
+    end
+  end
+  
+>>>>>>> rspec
 end
