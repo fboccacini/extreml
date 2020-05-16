@@ -17,6 +17,10 @@ All basic methods of TypeElement have aliases, in order to prevent method overri
 Usage:
 ------
 
+gem install extreml
+
+require 'extreml'
+
 ### Basic methods:
 
 
@@ -26,6 +30,8 @@ Usage:
 header: returns the representation of the xml header as a XmlHeader object.
 
 document: returns the representation of the entire document as a TypeElement object.
+
+to_xml: returns the document in an XML format
 
 tree: prints the entire structure of the document for debugging purposes.
 
@@ -41,7 +47,10 @@ attributes: returns an hash with the property names as key and the values as val
 
 types: returns an array containing the names of the dynamic methods referring to the nested elements.
 
-to_s: returns the content (overrides
+to_s: returns the content in a string form
+
+to_xml: returns the content in an XML format
+
 tree: prints the structure referred part of the document for debugging purposes.
 
 All these methods have aliases (eg. __name, __namespace, etc.)
