@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'extreml'
-  s.version     = '0.1.3'
+  s.version     = '0.1.4'
   s.summary     = "A gem to easily mamipulate XML documents."
   s.description = "This gem allows to read an XML file and access its elements using methods named after the tags.
     See https://github.com/fboccacini/extreml for reference and usage."

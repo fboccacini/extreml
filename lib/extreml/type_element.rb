@@ -123,6 +123,39 @@ class Extreml::TypeElement
   end
   alias __to_s to_s
 
+  # Retrurns the document in XML format
+  def to_xml level = 0
+    xml = ''
+    xml += "#{' ' * level}<#{@namespace.nil? ? '' : "#{@namespace}:"}#{@name}"
+    unless @attributes.nil?
+      @attributes.each do |a|
+        xml += " #{a[:namespace].nil? ? '' : "#{a[:namespace]}:"}#{a[:property]}=\"#{a[:value]}\""
+      end
+    end
+    if @content.nil?
+      xml += "/>"
+    else
+      xml += ">"
+      if @types.empty?
+        xml += "#{@content.join}"
+      else
+        @types.each do |t|
+          content = self.send(t)
+          if content.class == Array
+            content.each do |c|
+              xml += "\n#{c.to_xml (level + 1)}"
+            end
+          else
+            xml += "\n#{content.to_xml (level + 1)}"
+          end
+        end
+      end
+      xml += "#{@types.empty? ? '' : "\n#{' ' * level}"}</#{@namespace.nil? ? '' : "#{@namespace}:"}#{@name}>"
+    end
+    return xml
+  end
+  alias __to_xml to_xml
+
   # This method is for debug purposes only, it prints a tree of the document
   def tree level: 0, attributes: false
 

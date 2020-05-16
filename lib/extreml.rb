@@ -51,14 +51,7 @@ class Extreml
       else
         h = header.scan /([\w\?\<]*)=["|']([^'"]*)["|']/
 
-        @xml_header = XmlHeader.new
-        h.each do |param|
-          @xml_header.instance_eval do
-            define_singleton_method param[0].to_sym do
-              return param[1]
-            end
-          end
-        end
+        @xml_header = XmlHeader.new header
 
         define_singleton_method :header do
           return @xml_header
@@ -76,6 +69,19 @@ class Extreml
   # Returns the document in an Hash form
   def to_hash
     return @document
+  end
+
+  # Retrurns the document in XML format
+  def to_xml
+    if @xml_header.nil?
+      xml = ''
+    else
+      xml = @xml_header.to_xml + "\n"
+    end
+    self.document.__types.each do |t|
+      xml += self.document.send(t).to_xml
+    end
+    return xml
   end
 
   # Expose the entire document

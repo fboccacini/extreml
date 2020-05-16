@@ -20,9 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-<<<<<<< HEAD
-class Extreml::XmlHeader
-=======
 # Exposes the xml header properties as methods
 class Extreml::XmlHeader
 
@@ -31,13 +28,32 @@ class Extreml::XmlHeader
   # @param header [Hash|String] the header.
   # @return [XmlHeader] the object.
   def initialize header
+
     h = header.scan /([\w\?\<]*)=["|']([^'"]*)["|']/
-    h.each do |param|
-      define_singleton_method param[0].to_sym do
-        return param[1]
+    if h.empty?
+      @attributes = nil
+    else
+      @attributes = Array.new
+      h.each do |param|
+        @attributes << param[0].to_sym
+        define_singleton_method param[0].to_sym do
+          return param[1]
+        end
       end
     end
   end
-  
->>>>>>> rspec
+
+  def to_xml
+    if @attributes.nil?
+      header = ''
+    else
+      header = '<?xml'
+      @attributes.each do |a|
+        header += " #{a.to_s}=\"#{self.send(a)}\""
+      end
+      header += '?>'
+    end
+
+    return header
+  end
 end
