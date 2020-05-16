@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns0:funnyPeople>
+  <ns1:businessCard>
+    <name>
+      <firstName>Guybrush</firstName>
+      <lastName>Threepwood</lastName>
+    </name>
+    <jobs:occupation name="pirate" description="Terror of threeheaded monkeys"/>
+    <address>
+      <island>Scabb Island</island>
+      <city>Pirate's city</city>
+      <street>Voodoo Blvd.</street>
+      <number>3</number>
+    </address>
+  </ns1:businessCard>
+  <ns1:businessCard>
+    <name>
+      <firstName>Senbei</firstName>
+      <lastName>Norimaki</lastName>
+    </name>
+    <jobs:occupation name="inventor" description="A great genius"/>
+    <address>
+      <city>Penguin Village</city>
+      <street>Tanuki doro</street>
+      <number>1</number>
+    </address>
+  </ns1:businessCard>
+  <types>
+    <type name="main character"/>
+    <type name="villain"/>
+    <otherTypes/>
+  </types>
+</ns0:funnyPeople>

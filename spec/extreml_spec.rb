@@ -1,10 +1,15 @@
-describe Extreml do
-   context “When testing the HelloWorld class” do 
+require 'extreml'
 
-      it "should say 'Hello World' when we call the say_hello method" do
-         hw = HelloWorld.new
-         message = hw.say_hello
-         expect(message).to eq "Hello World!"
+describe Extreml do
+   context "When testing the Extreml class" do
+
+      it "should return the element content when we call a method with the same name" do
+
+        # More testing is needed, work in progress
+         xml = Extreml.new './test_files/movies.xml'
+         content = xml.document.movies.movie[0].title
+         expect(content).to eq "The terminator"
+
       end
 
    end

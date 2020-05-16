@@ -77,6 +77,11 @@ class Extreml
 
   end
 
+  # Returns the document in an Hash form
+  def to_hash
+    return @document
+  end
+
   # Expose the entire document
   def document
     return TypeElement.new({name: 'document', content: @document})

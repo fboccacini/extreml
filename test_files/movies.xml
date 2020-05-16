@@ -1,0 +1,10 @@
+<movies>
+  <movie>
+    <title>The terminator</title>
+    <year>1984</year>
+  </movie>
+  <movie>
+    <title>The matrix</title>
+    <year>1999</year>
+  </movie>
+</movies>
