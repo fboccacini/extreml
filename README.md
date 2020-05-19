@@ -33,6 +33,10 @@ document: returns the representation of the entire document as a TypeElement obj
 
 to_xml: returns the document in an XML format
 
+to_json: returns the document in an JSON format
+
+to_hash: returns the document as a hash
+
 tree: prints the entire structure of the document for debugging purposes.
 
 
@@ -50,6 +54,10 @@ types: returns an array containing the names of the dynamic methods referring to
 to_s: returns the content in a string form
 
 to_xml: returns the content in an XML format
+
+to_json: returns the document in an JSON format
+
+to_hash: returns the document as a hash
 
 tree: prints the structure referred part of the document for debugging purposes.
 
