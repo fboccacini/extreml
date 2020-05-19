@@ -68,7 +68,11 @@ class Extreml
 
   # Returns the document in an Hash form
   def to_hash
-    return @document
+    return self.document.to_hash
+  end
+
+  def to_json
+    return self.document.to_json
   end
 
   # Retrurns the document in XML format
@@ -112,7 +116,8 @@ class Extreml
         return string
       else
         attributes = Array.new
-        a = parts[:attributes].scan /[\t\n\r\f ]*(?:(?<namespace>[^:\n\r\f\t]*):)?(?<property>[^=\n\r\f\t ]*)[\t ]*=[\t ]*"(?<value>[^"]*)"[\t\n\r\f]*/m
+        a = parts[:attributes].scan /[\t\n\r\f ]*(?:(?<namespace>[^\:\=\n\r\f\t ]*):)?(?<property>[^\:\=\n\r\f\t ]*)[\t ]*=[\t ]*"(?<value>[^"]*)"[\t\n\r\f]*/m
+
         a.each do |p|
           attributes << {
             :namespace => p[0],
@@ -134,7 +139,7 @@ class Extreml
         attributes = nil
       else
         attributes = Array.new
-        a = tags[:attributes].scan /[\t\n\r\f ]*(?:(?<namespace>[^:\n\r\f\t]*):)?(?<property>[^=\n\r\f\t ]*)[\t ]*=[\t ]*"(?<value>[^"]*)"[\t\n\r\f]*/m
+        a = tags[:attributes].scan /[\t\n\r\f ]*(?:(?<namespace>[^\:\=\n\r\f\t ]*):)?(?<property>[^\:\=\n\r\f\t ]*)[\t ]*=[\t ]*"(?<value>[^"]*)"[\t\n\r\f]*/m
         a.each do |p|
           attributes << {
             :namespace => p[0],

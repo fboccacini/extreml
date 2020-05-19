@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 require 'pp'
+require 'json'
 
 class Extreml::TypeElement
 
@@ -123,7 +124,7 @@ class Extreml::TypeElement
   end
   alias __to_s to_s
 
-  # Retrurns the document in XML format
+  # Returns the document in XML format
   def to_xml level = 0
     xml = ''
     xml += "#{' ' * level}<#{@namespace.nil? ? '' : "#{@namespace}:"}#{@name}"
@@ -155,6 +156,38 @@ class Extreml::TypeElement
     return xml
   end
   alias __to_xml to_xml
+
+  # Returns the document in JSON format
+  def to_json
+    return self.to_hash.to_json
+  end
+  alias __to_json to_json
+
+  # Returns a hash of the document
+  def to_hash
+    hash = Hash.new
+    hash = {
+      namespace: @namespace,
+      attributes: @attributes
+    }
+    if @types.empty?
+      hash[:content] = @content
+    else
+      @types.each do |t|
+        obj = self.send(t)
+        if obj.class == Array
+          hash[t] = Array.new
+          obj.each do |o|
+            hash[t] << o.to_hash
+          end
+        else
+          hash[t] = obj.to_hash
+        end
+      end
+    end
+    return hash
+  end
+  alias __to_hash to_hash
 
   # This method is for debug purposes only, it prints a tree of the document
   def tree level: 0, attributes: false
