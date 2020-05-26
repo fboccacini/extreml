@@ -102,14 +102,33 @@ class Extreml::TypeElement
     if self.__types.any? name.to_sym
       array = self.send name.to_sym
       define_singleton_method name.to_sym do
-        return [array].flatten + [(content.class == Hash ? (Extreml::TypeElement.new content) : content)]
+        content = [array].flatten + [(content.class == Hash ? (Extreml::TypeElement.new content) : content)]
+        case content.length
+        when 0
+          return nil
+        when 1
+          return content[0]
+        else
+          return content
+        end
       end
     else
       define_singleton_method name.to_sym do
         if content.class == Hash
           return Extreml::TypeElement.new content
         else
-          return content
+          if content.class = Array
+            case content.length
+            when 0
+              return nil
+            when 1
+              return content[0]
+            else
+              return content
+            end
+          else
+            return content
+          end
         end
       end
       @types << name.to_sym
