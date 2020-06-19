@@ -25,7 +25,7 @@ require 'json'
 
 class Extreml::TypeElement
 
-  def initialize document
+  def initialize document = nil, main_element: nil
 
     # document model:
     #
@@ -50,6 +50,7 @@ class Extreml::TypeElement
     @attributes = document[:attributes]
     @content = document[:content]
     @types = Array.new
+    @main_element = main_element
 
     # Add a type for every element in content
     unless @content.nil?
@@ -102,7 +103,7 @@ class Extreml::TypeElement
     if self.__types.any? name.to_sym
       array = self.send name.to_sym
       define_singleton_method name.to_sym do
-        content = [array].flatten + [(content.class == Hash ? (Extreml::TypeElement.new content) : content)]
+        content = [array].flatten + [(content.class == Hash ? (Extreml::TypeElement.new content, main_element: self) : content)]
         case content.length
         when 0
           return nil
@@ -115,9 +116,9 @@ class Extreml::TypeElement
     else
       define_singleton_method name.to_sym do
         if content.class == Hash
-          return Extreml::TypeElement.new content
+          return Extreml::TypeElement.new content, main_element: self
         else
-          if content.class = Array
+          if content.class == Array
             case content.length
             when 0
               return nil
@@ -136,6 +137,27 @@ class Extreml::TypeElement
 
   end
   alias __add_type add_type
+
+  def add_new_type name, content
+
+    self.__add_type name, {name: name, namespace: nil, attributes: [], content: [content].flatten}
+    self.__update_content name, content
+    
+  end
+  alias __add_new_type add_new_type
+
+  # update content from a subsequent element
+  # recursively call update on main_element
+  def update_content name, content
+
+    @content << {name: name, namespace: nil, attributes: [], content: [content].flatten}
+
+    unless @main_element.nil?
+      @main_element.update_content @name, self
+    end
+
+  end
+  alias __update_content update_content
 
   # Override to_s to use in strings (useful for the last nesting level)
   def to_s
@@ -200,7 +222,11 @@ class Extreml::TypeElement
             hash[t] << o.to_hash
           end
         else
-          hash[t] = obj.to_hash
+          if obj.class == Extreml::TypeElement
+            hash[t] = obj.to_hash
+          else
+            hash[t] = obj
+          end
         end
       end
     end

@@ -27,42 +27,45 @@ class Extreml
 
     # Warnings flag
     @warnings = warnings
-    @header = xml_header
+    @header = XmlHeader.new xml_header
 
     if xml_file.nil?
-      raise 'Error: please specify an xml file. Nil was given.'
-    elsif !File.file? xml_file
-      raise "Error: file #{xml_file} not found."
+      @document = Array.new
     else
-
-      # Read file
-      xml = File.read xml_file
-
-      @body = Hash.new
-
-      # Get xml header informations
-      header = xml[/^\<\?xml (.*)\?\>/]
-
-      if header.nil?
-        puts "Warning: #{xml_file}: xml header missing." if @warnings
-        define_singleton_method :header do
-          return nil
-        end
+      if !File.file? xml_file
+        raise "Error: file #{xml_file} not found."
       else
-        h = header.scan /([\w\?\<]*)=["|']([^'"]*)["|']/
 
-        @xml_header = XmlHeader.new header
+        # Read file
+        xml = File.read xml_file
 
-        define_singleton_method :header do
-          return @xml_header
+        @body = Hash.new
+
+        # Get xml header informations
+        header = xml[/^\<\?xml (.*)\?\>/]
+
+        if header.nil?
+          puts "Warning: #{xml_file}: xml header missing." if @warnings
+          define_singleton_method :header do
+            return nil
+          end
+        else
+          h = header.scan /([\w\?\<]*)=["|']([^'"]*)["|']/
+
+          @xml_header = XmlHeader.new header
+
+          define_singleton_method :header do
+            return @xml_header
+          end
         end
+
       end
 
-    end
+      # Read document
+      doc = xml.match /(?:\<\?xml .*?(?: ?\?\>))?[\t\n\r\f ]*(.*)/m
+      @document = unpack doc[1]
 
-    # Read document
-    doc = xml.match /(?:\<\?xml .*?(?: ?\?\>))?[\t\n\r\f ]*(.*)/m
-    @document = unpack doc[1]
+    end
 
   end
 
@@ -90,12 +93,42 @@ class Extreml
 
   # Expose the entire document
   def document
-    return TypeElement.new({name: 'document', content: @document})
+    return TypeElement.new({name: 'document', content: @document}, main_element: self)
+  end
+
+  # update content from a subsequent element
+  def update_content key, content
+    # byebug
+    # @document = content.to_hash
+    # upd = false
+    # @document.each do |e|
+    #   byebug
+    #   if e[:name] == key
+    #     upd = true
+    #     content.each do |k,v|
+    #       e[k] = v
+    #     end
+    #     break
+    #   end
+    # end
+    #
+    # unless upd
+    #   @document << content
+    # end
+    # if @document[key].nil?
+    #   @document[key] = content
+    # else
+    #   unless @document[key].class = Array
+    #     @document[key] = [@document[key]]
+    #   end
+    #   @document[key] << content.to_hash
+    # end
+
   end
 
   # Print the entire document tree. For debug purposes
   def tree attributes: false
-    self.document.__tree attributes
+    self.document.__tree attributes: attributes
   end
 
   private

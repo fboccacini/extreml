@@ -2,3 +2,4 @@
 /*.xsd
 /*.wsdl
 /test.rb
+.byebug_history

@@ -27,9 +27,15 @@ class Extreml::XmlHeader
   #
   # @param header [Hash|String] the header.
   # @return [XmlHeader] the object.
-  def initialize header
-
-    h = header.scan /([\w\?\<]*)=["|']([^'"]*)["|']/
+  def initialize header = nil
+    if header.nil?
+      h = [
+        ["version",1.0],
+        ["encoding","UTF-8"]
+      ]
+    else
+      h = header.scan /([\w\?\<]*)=["|']([^'"]*)["|']/
+    end
     if h.empty?
       @attributes = nil
     else
