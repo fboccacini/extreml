@@ -98,11 +98,11 @@ class Extreml
 
   # update content from a subsequent element
   def update_content key, content
-    # byebug
+
     # @document = content.to_hash
     # upd = false
     # @document.each do |e|
-    #   byebug
+
     #   if e[:name] == key
     #     upd = true
     #     content.each do |k,v|

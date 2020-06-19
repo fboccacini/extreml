@@ -1,5 +1,4 @@
 require 'extreml'
-require 'byebug'
 
 describe Extreml do
    context "When testing the Extreml class" do
